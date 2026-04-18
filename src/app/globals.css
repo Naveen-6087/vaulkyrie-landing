@@ -2,16 +2,18 @@
 
 /* ── Vaulkyrie Design Tokens ── */
 :root {
-  --bg-primary: #050508;
-  --bg-secondary: #0a0b10;
-  --bg-card: #0e0f15;
-  --bg-elevated: #13141c;
+  --bg-primary: #040406;
+  --bg-secondary: #08090e;
+  --bg-card: #0c0d14;
+  --bg-card-hover: #10111a;
+  --bg-elevated: #14151f;
 
   --teal: #14b8a6;
   --teal-bright: #2dd4bf;
+  --teal-dim: #0d7a6e;
   --neon: #00ffd5;
-  --purple: #8b5cf6;
-  --blue: #3b82f6;
+  --neon-dim: #00b396;
+  --accent: #14b8a6;
 
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
@@ -20,6 +22,7 @@
 
   --border: rgba(255, 255, 255, 0.06);
   --border-hover: rgba(255, 255, 255, 0.12);
+  --border-glow: rgba(20, 184, 166, 0.15);
 }
 
 @theme inline {
@@ -27,18 +30,21 @@
   --color-foreground: var(--text-primary);
   --color-surface: var(--bg-secondary);
   --color-card: var(--bg-card);
+  --color-card-hover: var(--bg-card-hover);
   --color-elevated: var(--bg-elevated);
 
   --color-teal: var(--teal);
   --color-teal-bright: var(--teal-bright);
+  --color-teal-dim: var(--teal-dim);
   --color-neon: var(--neon);
-  --color-purple: var(--purple);
-  --color-blue: var(--blue);
+  --color-neon-dim: var(--neon-dim);
+  --color-accent: var(--accent);
 
   --color-muted: var(--text-secondary);
   --color-subtle: var(--text-tertiary);
   --color-dim: var(--text-muted);
 
+  --font-heading: var(--font-space-grotesk);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -63,17 +69,30 @@ body {
 
 /* ── Glass Morphism ── */
 .glass {
-  background: rgba(14, 15, 21, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(12, 13, 20, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
 }
 
 .glass-strong {
-  background: rgba(14, 15, 21, 0.85);
+  background: rgba(12, 13, 20, 0.88);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border: 1px solid var(--border);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(12, 13, 20, 0.7) 0%, rgba(8, 9, 14, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(20, 184, 166, 0.15);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(20, 184, 166, 0.04);
 }
 
 /* ── Glow Effects ── */
@@ -100,35 +119,27 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, var(--teal), var(--purple), var(--blue));
+  background: linear-gradient(135deg, var(--teal), var(--neon-dim), var(--teal-dim));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  opacity: 0.4;
-  transition: opacity 0.3s ease;
+  opacity: 0.3;
+  transition: opacity 0.4s ease;
 }
 
 .gradient-border:hover::before {
-  opacity: 0.8;
-}
-
-/* ── Grid Pattern (subtle background texture) ── */
-.grid-pattern {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
+  opacity: 0.7;
 }
 
 /* ── Animations ── */
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
 }
 
 @keyframes shimmer {
@@ -137,72 +148,57 @@ body {
 }
 
 @keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.05); opacity: 1; }
 }
 
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
-.animate-shimmer {
-  background-size: 200% 100%;
-  animation: shimmer 3s linear infinite;
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-shimmer { background-size: 200% 100%; animation: shimmer 3s linear infinite; }
+.animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+.animate-breathe { animation: breathe 4s ease-in-out infinite; }
+
+@keyframes orbit-spin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out forwards;
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-shimmer,
+  .animate-breathe { animation: none; }
 }
 
 /* ── Noise Texture ── */
 .noise::after {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.015;
+  inset: 0;
+  opacity: 0.012;
   pointer-events: none;
   z-index: 9999;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
 
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .animate-float,
-  .animate-pulse-glow,
-  .animate-shimmer,
-  .animate-fade-in-up {
-    animation: none;
-  }
+  .animate-float, .animate-pulse-glow, .animate-shimmer, .animate-fade-in-up, .animate-breathe { animation: none; }
 }

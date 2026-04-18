@@ -18,17 +18,19 @@ export default function Stats() {
   const itemsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReduced) return;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReduced) {
+      itemsRef.current.forEach((item) => { if (item) item.style.opacity = "1"; });
+      return;
+    }
 
     const ctx = gsap.context(() => {
       itemsRef.current.forEach((item, i) => {
         if (!item) return;
-        gsap.from(item, {
-          y: 40,
-          opacity: 0,
+        gsap.to(item, {
+          y: 0,
+          opacity: 1,
           duration: 0.8,
           delay: i * 0.1,
           ease: "power3.out",
@@ -46,34 +48,27 @@ export default function Stats() {
 
   return (
     <section ref={sectionRef} className="relative py-24 overflow-hidden">
-      {/* Gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal/20 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
 
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(20,184,166,0.04)_0%,transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(20,184,166,0.03)_0%,transparent_60%)]" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              ref={(el) => {
-                if (el) itemsRef.current[i] = el;
-              }}
-              className="text-center group"
+              ref={(el) => { if (el) itemsRef.current[i] = el; }}
+              className="text-center group opacity-0 translate-y-[30px]"
             >
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-b from-foreground via-foreground to-muted bg-clip-text text-transparent tracking-tight">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-bold font-[family-name:var(--font-space-grotesk)] bg-gradient-to-b from-white via-white to-[#94a3b8] bg-clip-text text-transparent tracking-tight">
                 {stat.value}
-                {stat.suffix && (
-                  <span className="text-teal">{stat.suffix}</span>
-                )}
+                {stat.suffix && <span className="text-teal">{stat.suffix}</span>}
               </div>
               <div className="mt-3 text-sm text-muted font-medium uppercase tracking-wider">
                 {stat.label}
               </div>
-              {/* Decorative line */}
-              <div className="mt-4 mx-auto w-8 h-px bg-gradient-to-r from-transparent via-teal/40 to-transparent group-hover:via-teal/80 transition-all duration-500" />
+              <div className="mt-4 mx-auto w-8 h-px bg-gradient-to-r from-transparent via-teal/40 to-transparent group-hover:via-teal/80 transition-colors duration-500" />
             </div>
           ))}
         </div>
