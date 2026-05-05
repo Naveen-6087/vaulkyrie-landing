@@ -3,198 +3,147 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Plus, Scan, PenTool, Send } from "lucide-react";
+import { ArrowRight, Plus, Send, Shield, Sparkles } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const PhotonRays = dynamic(() => import("./PhotonRays"), { ssr: false });
 
 gsap.registerPlugin(ScrollTrigger);
 
-const steps = [
+const workflow = [
   {
     num: "01",
+    title: "Pair",
+    description: "Choose the devices that will hold the wallet.",
     icon: Plus,
-    title: "Create Your Vault",
-    description: "Choose how many devices you need to approve transactions.",
-    visual: "2 of 3",
-    visualLabel: "devices required",
-    accent: "#14b8a6",
+    tag: "SETUP",
   },
   {
     num: "02",
-    icon: Scan,
-    title: "Set Your Rules",
-    description: "Define spending limits and approval policies — privately.",
-    visual: "Private",
-    visualLabel: "policy engine",
-    accent: "#00ffd5",
+    title: "Choose",
+    description: "Pick Shared, Veil, or Stronghold for the job.",
+    icon: Shield,
+    tag: "MODE",
   },
   {
     num: "03",
-    icon: PenTool,
-    title: "Sign Together",
-    description: "Approve transactions from your devices. Fast and seamless.",
-    visual: "< 2s",
-    visualLabel: "signing time",
-    accent: "#2dd4bf",
+    title: "Approve",
+    description: "The right devices agree on the move.",
+    icon: Sparkles,
+    tag: "APPROVAL",
   },
   {
     num: "04",
+    title: "Send",
+    description: "The wallet settles like a familiar Solana flow.",
     icon: Send,
-    title: "Done",
-    description: "Your transaction lands on Solana. No extra steps needed.",
-    visual: "100%",
-    visualLabel: "compatible",
-    accent: "#14b8a6",
+    tag: "SEND",
   },
 ];
 
 export default function HowItWorks() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
-  const cardsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const cards = sectionRef.current?.querySelectorAll("[data-step]") as NodeListOf<HTMLElement> | undefined;
-
-    if (prefersReduced) {
-      if (headingRef.current) headingRef.current.style.opacity = "1";
-      cards?.forEach((c) => { c.style.opacity = "1"; c.style.transform = "none"; });
-      return;
-    }
-
     const ctx = gsap.context(() => {
-      gsap.to(headingRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
+      gsap.from(headingRef.current?.querySelectorAll("[data-line]") ?? [], {
+        opacity: 0,
+        y: 42,
+        stagger: 0.12,
+        duration: 0.85,
         ease: "power3.out",
         scrollTrigger: {
           trigger: headingRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
+          start: "top 84%",
         },
       });
 
-      if (cards) {
-        cards.forEach((card, i) => {
-          // Each card scales up and fades in as you scroll
-          gsap.to(card, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            delay: i * 0.05,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          });
-
-          // Animate the visual number inside each card
-          const visual = card.querySelector("[data-visual]");
-          if (visual) {
-            gsap.to(visual, {
-              scale: 1,
-              opacity: 1,
-              duration: 0.6,
-              delay: 0.3 + i * 0.05,
-              ease: "back.out(1.5)",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-              },
-            });
-          }
-        });
-      }
+      gsap.fromTo(".workflow-item", {
+        opacity: 0,
+        y: 56,
+        rotateX: -10,
+      }, {
+        opacity: 1,
+        y: 0,
+        rotateX: 0,
+        stagger: 0.12,
+        duration: 0.85,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".workflow-container",
+          start: "top 82%",
+        },
+      });
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} id="how-it-works" className="relative py-32">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+    <section ref={sectionRef} id="how-it-works" className="relative bg-bg-abyss py-24 lg:py-40">
+      <div className="pointer-events-none absolute inset-0 opacity-75" aria-hidden="true">
+        <PhotonRays rayCount={240} orbCount={28} brightness={1.4} speedBoost={1.25} />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(2,2,4,0.06)_0%,rgba(2,2,4,0.84)_68%)]" />
+      </div>
 
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[radial-gradient(ellipse_at_center,rgba(20,184,166,0.03)_0%,transparent_50%)] pointer-events-none" />
-
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
-        <div ref={headingRef} className="text-center mb-20 opacity-0 translate-y-12">
-          <span className="inline-block text-teal text-xs font-mono tracking-widest uppercase mb-4">
-            How It Works
-          </span>
-          <h2 className="font-[family-name:var(--font-space-grotesk)] text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-            Simple to use.
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+        <div ref={headingRef} className="mb-20">
+          <span className="technical-label mb-4 inline-block text-neon">How it works</span>
+          <h2 className="brand-display text-4xl font-black uppercase lg:text-7xl">
+            <span data-line className="block">
+              Set up.
+            </span>
             <br />
-            <span className="text-muted">Hard to break.</span>
+            <span data-line className="block">
+              Approve. Send.
+            </span>
           </h2>
         </div>
 
-        {/* Cards grid - no timeline, just clean cards */}
-        <div ref={cardsContainerRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {steps.map((step, i) => (
-            <div
-              key={step.num}
-              data-step={i}
-              className="group relative glass-card rounded-2xl p-7 flex flex-col items-center text-center opacity-0 translate-y-[30px] scale-[0.95]"
-            >
-              {/* Step number watermark */}
-              <span
-                className="absolute top-4 right-5 text-5xl font-bold font-mono opacity-[0.04] select-none"
-                aria-hidden="true"
-              >
-                {step.num}
+        <div className="workflow-container grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {workflow.map((item, index) => (
+            <div key={item.num} className="workflow-item group relative rounded-[1.6rem] border border-white/[0.06] bg-[#080a0f]/75 p-6">
+              <div className="mb-8 flex items-center gap-4">
+                <div className="text-4xl font-black text-white/12 transition-colors duration-500 group-hover:text-neon">
+                  {item.num}
+                </div>
+                <div className="h-px flex-1 bg-white/10 group-hover:bg-neon/28 transition-colors" />
+              </div>
+
+              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] group-hover:border-neon/36 group-hover:bg-neon/[0.06]">
+                <item.icon className="h-5 w-5 text-white group-hover:text-neon" strokeWidth={1.5} />
+              </div>
+
+              <h3 className="mb-3 text-xl font-bold text-white">{item.title}</h3>
+              <p className="mb-5 text-sm font-medium leading-relaxed text-text-secondary">{item.description}</p>
+              <span className="technical-label inline-block rounded-full border border-white/10 px-3 py-1 text-text-muted group-hover:border-neon/30 group-hover:text-neon">
+                {item.tag}
               </span>
 
-              {/* Visual metric */}
-              <div
-                data-visual
-                className="w-20 h-20 rounded-2xl flex flex-col items-center justify-center mb-6 opacity-0 scale-[0.5]"
-                style={{
-                  background: `linear-gradient(135deg, ${step.accent}15, ${step.accent}05)`,
-                  border: `1px solid ${step.accent}20`,
-                }}
-              >
-                <span
-                  className="text-xl font-bold font-[family-name:var(--font-space-grotesk)]"
-                  style={{ color: step.accent }}
-                >
-                  {step.visual}
-                </span>
-                <span className="text-[9px] text-muted uppercase tracking-wider mt-0.5">
-                  {step.visualLabel}
-                </span>
-              </div>
-
-              {/* Icon */}
-              <div
-                className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-4 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
-                style={{
-                  backgroundColor: `${step.accent}08`,
-                  border: `1px solid ${step.accent}15`,
-                }}
-              >
-                <step.icon className="w-5 h-5" style={{ color: step.accent }} strokeWidth={1.5} />
-              </div>
-
-              <h3 className="font-[family-name:var(--font-space-grotesk)] text-lg font-semibold mb-2">
-                {step.title}
-              </h3>
-
-              <p className="text-sm text-muted leading-relaxed">
-                {step.description}
-              </p>
-
-              {/* Connecting arrow (not on last card) */}
-              {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 z-30">
-                  <div className="w-6 h-[1px] bg-gradient-to-r from-white/10 to-white/5" />
-                </div>
+              {index < workflow.length - 1 && (
+                <div className="absolute -right-4 top-16 hidden h-px w-8 bg-white/6 lg:block" />
               )}
             </div>
           ))}
+        </div>
+
+        <div className="mt-24 rounded-[2rem] border border-white/[0.06] bg-[#080a0f]/82 p-8 lg:flex lg:items-center lg:justify-between lg:gap-8">
+          <div>
+            <span className="technical-label text-neon">Want the build notes?</span>
+            <p className="mt-3 max-w-2xl text-sm text-text-secondary">
+              The repo stays open, and the docs follow the wallet, the programs, and the path to production.
+            </p>
+          </div>
+          <a
+            href="https://github.com/Naveen-6087/vaulkyrie"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center gap-3 rounded-full bg-neon px-8 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition-all hover:bg-white lg:mt-0"
+          >
+            View the docs
+            <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </section>

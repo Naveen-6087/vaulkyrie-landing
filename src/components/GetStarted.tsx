@@ -1,16 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Monitor,
-  Smartphone,
-  Terminal,
-  Github,
-  ArrowRight,
-  Globe,
-} from "lucide-react";
+import { ArrowRight, Github, Globe, Monitor, Smartphone, Terminal } from "lucide-react";
+import { SecurePortalDiagram } from "./MinimalDiagrams";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,233 +12,208 @@ const platforms = [
   {
     icon: Monitor,
     title: "Browser Extension",
-    description: "Seamless dApp interactions from your browser.",
+    description: "Keep Vaulkyrie close to the apps you already use.",
     status: "Coming Soon",
-    accent: "#14b8a6",
-    image: "/assets/browser-extension.jpeg",
+    accent: "#00ffd5",
   },
   {
     icon: Smartphone,
     title: "Mobile App",
-    description: "Approve on the go with biometric signing.",
+    description: "Approve with the device that already lives in your hand.",
     status: "Coming Soon",
-    accent: "#00ffd5",
-    image: "/assets/mobie-dispaly.jpeg",
+    accent: "#14b8a6",
   },
   {
     icon: Terminal,
     title: "CLI Tool",
-    description: "Full control from the command line.",
+    description: "For the builders and operators who want a direct path.",
     status: "Coming Soon",
-    accent: "#2dd4bf",
-    image: null,
+    accent: "#dffef3",
   },
   {
     icon: Globe,
     title: "Web Dashboard",
-    description: "Manage your vaults and policies in one place.",
+    description: "Watch the wallet, the stronghold, and the moving parts in one place.",
     status: "Coming Soon",
-    accent: "#14b8a6",
-    image: null,
+    accent: "#00ffd5",
   },
-];
-
-const terminalLines = [
-  { prompt: true, text: "git clone https://github.com/Naveen-6087/vaulkyrie.git" },
-  { prompt: true, text: "cd vaulkyrie && cargo build --workspace" },
-  { prompt: false, text: "   Compiling vaulkyrie-protocol v0.1.0" },
-  { prompt: false, text: "   Compiling vaulkyrie-core v0.1.0" },
-  { prompt: false, text: "" },
-  { prompt: false, text: "✓ All tests passed", success: true },
-];
-
-function TypingTerminal() {
-  const [visibleLines, setVisibleLines] = useState(0);
-  const terminalRef = useRef<HTMLDivElement>(null);
-  const hasAnimated = useRef(false);
-
-  useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!terminalRef.current) return;
-
-    const trigger = ScrollTrigger.create({
-      trigger: terminalRef.current,
-      start: "top 85%",
-      onEnter: () => {
-        if (hasAnimated.current) return;
-        hasAnimated.current = true;
-        if (prefersReduced) {
-          setVisibleLines(terminalLines.length);
-          return;
-        }
-        terminalLines.forEach((_, i) => {
-          setTimeout(() => setVisibleLines(i + 1), i * 300);
-        });
-      },
-    });
-
-    return () => trigger.kill();
-  }, []);
-
-  return (
-    <div
-      ref={terminalRef}
-      className="rounded-2xl glass-card overflow-hidden max-w-3xl mx-auto"
-    >
-      <div className="flex items-center gap-2 px-5 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
-        <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-        <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-        <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-        <span className="ml-3 text-xs text-[#64748b] font-mono">vaulkyrie — terminal</span>
-      </div>
-      <div className="p-6 font-mono text-sm leading-8 min-h-[200px]">
-        {terminalLines.slice(0, visibleLines).map((line, i) => (
-          <div key={i} className="flex items-center gap-2">
-            {line.prompt && <span className="text-teal select-none">$</span>}
-            <span
-              className={
-                line.success
-                  ? "text-green-400 font-semibold"
-                  : line.prompt
-                  ? "text-[#94a3b8]"
-                  : "text-[#64748b]"
-              }
-            >
-              {line.text}
-            </span>
-          </div>
-        ))}
-        {visibleLines < terminalLines.length && visibleLines > 0 && (
-          <div className="flex items-center gap-2">
-            <span className="text-teal select-none">$</span>
-            <span className="w-2 h-4 bg-teal/80 animate-pulse" />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
+] as const;
 
 export default function GetStarted() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const calloutRef = useRef<HTMLDivElement>(null);
+  const portalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const cards = sectionRef.current?.querySelectorAll("[data-platform]") as NodeListOf<HTMLElement> | undefined;
 
-    if (prefersReduced) {
-      if (headingRef.current) headingRef.current.style.opacity = "1";
-      cards?.forEach((c) => { c.style.opacity = "1"; c.style.transform = "none"; });
-      return;
-    }
-
     const ctx = gsap.context(() => {
-      gsap.to(headingRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
+      gsap.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 28 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: "top 85%",
+          },
         },
-      });
+      );
 
-      if (cards) {
-        cards.forEach((card, i) => {
-          gsap.to(card, {
+      if (cards?.length) {
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 24 },
+          {
             opacity: 1,
             y: 0,
-            scale: 1,
-            rotateX: 0,
-            duration: 0.8,
-            delay: i * 0.1,
+            duration: 0.75,
+            stagger: 0.08,
             ease: "power3.out",
             scrollTrigger: {
               trigger: cardsRef.current,
-              start: "top 85%",
-              toggleActions: "play none none reverse",
+              start: "top 86%",
             },
-          });
-        });
+          },
+        );
       }
+
+      if (portalRef.current) {
+        const portalTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: portalRef.current,
+            start: "top 82%",
+          },
+        });
+
+        portalTimeline
+          .from(portalRef.current.querySelector('[data-portal-piece="rings"]'), {
+            opacity: 0,
+            scale: 0.72,
+            rotation: -22,
+            duration: 0.55,
+            transformOrigin: "50% 50%",
+            ease: "power3.out",
+          })
+          .from(portalRef.current.querySelector('[data-portal-piece="axes"]'), {
+            opacity: 0,
+            scaleY: 0.7,
+            duration: 0.35,
+            transformOrigin: "50% 50%",
+            ease: "power2.out",
+          }, "-=0.28")
+          .from(portalRef.current.querySelector('[data-portal-piece="core"]'), {
+            opacity: 0,
+            scale: 0.5,
+            duration: 0.4,
+            transformOrigin: "50% 50%",
+            ease: "back.out(1.8)",
+          }, "-=0.22");
+      }
+
+      gsap.fromTo(
+        calloutRef.current,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.75,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: calloutRef.current,
+            start: "top 88%",
+          },
+        },
+      );
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} id="get-started" className="relative py-32">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+    <section ref={sectionRef} id="get-started" className="relative overflow-hidden py-32">
+      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      <div className="pointer-events-none absolute bottom-0 left-1/2 h-[560px] w-[900px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgba(20,184,166,0.04)_0%,transparent_62%)]" />
 
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(20,184,166,0.04)_0%,transparent_60%)] pointer-events-none" />
+      <div ref={portalRef} className="absolute left-1/2 top-1/2 z-[1] h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/2 opacity-70">
+        <SecurePortalDiagram className="h-full w-full" />
+      </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
-        <div ref={headingRef} className="text-center mb-16 opacity-0 translate-y-12">
-          <span className="inline-block text-teal text-xs font-mono tracking-widest uppercase mb-4">
-            Get Started
-          </span>
-          <h2 className="font-[family-name:var(--font-space-grotesk)] text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-            Available everywhere.
+        <div ref={headingRef} className="mb-16 text-center">
+          <span className="technical-label mb-4 inline-block text-neon">Use it anywhere</span>
+          <h2 className="brand-display text-4xl font-bold sm:text-5xl lg:text-6xl">
+            Pick your surface.
           </h2>
-          <p className="mt-4 text-muted max-w-lg mx-auto">
-            Choose your platform. Same vault, same security.
+          <p className="mx-auto mt-4 max-w-lg text-text-secondary">
+            Browser, mobile, CLI, or dashboard. Same wallet. Same hold.
           </p>
         </div>
 
-        {/* Platform cards with tilt effect */}
-        <div ref={cardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20" style={{ perspective: "1200px" }}>
-          {platforms.map((platform, i) => (
-            <div
+        <div ref={cardsRef} className="mb-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {platforms.map((platform, index) => (
+            <article
               key={platform.title}
-              data-platform={i}
-              className="group relative glass-card rounded-2xl p-7 text-center opacity-0 translate-y-[30px] scale-[0.95]"
-              style={{ transformStyle: "preserve-3d", transform: `rotateX(8deg)` }}
+              data-platform={index}
+              className="rounded-[1.8rem] border border-white/[0.06] bg-[#090b10]/78 p-7 backdrop-blur-xl"
             >
-              {/* Icon */}
               <div
-                className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
+                className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl border"
                 style={{
                   backgroundColor: `${platform.accent}08`,
-                  border: `1px solid ${platform.accent}15`,
+                  borderColor: `${platform.accent}22`,
                 }}
               >
-                <platform.icon className="w-6 h-6" style={{ color: platform.accent }} strokeWidth={1.5} />
+                <platform.icon className="h-6 w-6" style={{ color: platform.accent }} strokeWidth={1.5} />
               </div>
 
-              <h3 className="font-[family-name:var(--font-space-grotesk)] text-lg font-semibold mb-2">
-                {platform.title}
-              </h3>
-              <p className="text-sm text-muted leading-relaxed mb-5">
-                {platform.description}
-              </p>
+              <h3 className="mb-2 text-lg font-semibold text-white">{platform.title}</h3>
+              <p className="mb-5 text-sm leading-relaxed text-text-secondary">{platform.description}</p>
 
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/[0.04] border border-white/[0.06] px-4 py-2 text-xs text-[#64748b]">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80 shadow-[0_0_4px_rgba(251,191,36,0.4)]" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-xs text-[#64748b]">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-400/80 shadow-[0_0_4px_rgba(251,191,36,0.4)]" />
                 {platform.status}
               </span>
-            </div>
+            </article>
           ))}
         </div>
 
-        {/* Terminal */}
-        <TypingTerminal />
+        <div
+          ref={calloutRef}
+          className="rounded-[2rem] border border-white/[0.06] bg-[#080a0f]/84 p-8 backdrop-blur-xl lg:flex lg:items-center lg:justify-between lg:gap-8"
+        >
+          <div>
+            <span className="technical-label text-neon">Built in the open</span>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-text-secondary">
+              The wallet, the docs, and the on-chain work are all moving in public. Follow the build and the releases as Vaulkyrie takes shape.
+            </p>
+          </div>
 
-        {/* GitHub CTA */}
-        <div className="text-center mt-16">
-          <a
-            href="https://github.com/Naveen-6087/vaulkyrie"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 rounded-full bg-white/[0.04] border border-white/[0.08] px-10 py-4.5 text-base font-medium hover:bg-white/[0.08] hover:border-white/[0.16] transition-[background-color,border-color] duration-300"
-          >
-            <Github className="w-5 h-5" />
-            View on GitHub
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
-          </a>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:mt-0">
+            <a
+              href="https://github.com/Naveen-6087/vaulkyrie"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 rounded-full bg-neon px-8 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition-all hover:bg-white"
+            >
+              <Github className="h-5 w-5" />
+              View GitHub
+            </a>
+            <a
+              href="https://github.com/Naveen-6087/vaulkyrie"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-3 rounded-full border border-white/[0.1] bg-white/[0.03] px-8 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition-all hover:border-neon/30 hover:text-neon"
+            >
+              Read Docs
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
         </div>
       </div>
     </section>

@@ -8,6 +8,11 @@ const DEVICE_COUNT = 3;
 const SHARD_PARTICLES = 120;
 const ORBIT_RADIUS = 2.2;
 
+function seededUnit(index: number, salt: number) {
+  const x = Math.sin(index * 127.1 + salt * 311.7) * 43758.5453123;
+  return x - Math.floor(x);
+}
+
 // Rounded-rectangle shape for a device
 function Device({
   angle,
@@ -169,8 +174,8 @@ function ShardStreams() {
     const neon = new THREE.Color("#00ffd5");
 
     for (let i = 0; i < SHARD_PARTICLES; i++) {
-      phases.push(Math.random());
-      const c = teal.clone().lerp(neon, Math.random());
+      phases.push(seededUnit(i, 1));
+      const c = teal.clone().lerp(neon, seededUnit(i, 2));
       c.toArray(colors, i * 3);
     }
 

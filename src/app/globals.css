@@ -1,204 +1,344 @@
 @import "tailwindcss";
 
-/* ── Vaulkyrie Design Tokens ── */
+/* ── Vaulkyrie V2 Design Tokens ── */
 :root {
-  --bg-primary: #040406;
-  --bg-secondary: #08090e;
-  --bg-card: #0c0d14;
-  --bg-card-hover: #10111a;
-  --bg-elevated: #14151f;
+  --bg-abyss: #020204;
+  --bg-obsidian: #08090b;
+  --bg-card: #0c0d12;
+  --bg-elevated: #111218;
 
-  --teal: #14b8a6;
-  --teal-bright: #2dd4bf;
-  --teal-dim: #0d7a6e;
   --neon: #00ffd5;
   --neon-dim: #00b396;
-  --accent: #14b8a6;
+  --teal: #14b8a6;
+  --teal-dim: #0d7a6e;
+  --cyan: #dffef3;
 
-  --text-primary: #f1f5f9;
+  --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-tertiary: #64748b;
   --text-muted: #475569;
 
-  --border: rgba(255, 255, 255, 0.06);
-  --border-hover: rgba(255, 255, 255, 0.12);
-  --border-glow: rgba(20, 184, 166, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --border-active: rgba(0, 255, 213, 0.2);
+  --glow-primary: rgba(0, 255, 213, 0.15);
 }
 
 @theme inline {
-  --color-background: var(--bg-primary);
+  --color-background: var(--bg-abyss);
   --color-foreground: var(--text-primary);
-  --color-surface: var(--bg-secondary);
+  --color-surface: var(--bg-obsidian);
   --color-card: var(--bg-card);
-  --color-card-hover: var(--bg-card-hover);
   --color-elevated: var(--bg-elevated);
 
-  --color-teal: var(--teal);
-  --color-teal-bright: var(--teal-bright);
-  --color-teal-dim: var(--teal-dim);
   --color-neon: var(--neon);
   --color-neon-dim: var(--neon-dim);
-  --color-accent: var(--accent);
+  --color-teal: var(--teal);
+  --color-cyan: var(--cyan);
 
   --color-muted: var(--text-secondary);
   --color-subtle: var(--text-tertiary);
   --color-dim: var(--text-muted);
 
-  --font-heading: var(--font-space-grotesk);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-heading: "Space Grotesk", var(--font-space-grotesk), sans-serif;
+  --font-display: var(--font-heading);
+  --font-sans: "Geist Sans", var(--font-geist-sans), sans-serif;
+  --font-mono: "Geist Mono", var(--font-geist-mono), monospace;
+  --font-shard: var(--font-anurati), var(--font-heading), sans-serif;
 }
 
-/* ── Base ── */
+/* ── Base Reset ── */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+  background-color: var(--bg-abyss);
 }
 
 body {
-  background: var(--bg-primary);
+  background: var(--bg-abyss);
   color: var(--text-primary);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-::selection {
-  background: rgba(20, 184, 166, 0.3);
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch],
+.lenis [data-lenis-prevent-vertical],
+.lenis [data-lenis-prevent-horizontal] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ── Typography Overrides ── */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
+.technical-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.mythic-type {
+  font-family: var(--font-anurati), var(--font-heading), sans-serif;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.brand-wordmark {
+  font-family: var(--font-anurati), var(--font-heading), sans-serif;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 1;
+  text-shadow: 0 0 24px rgba(0, 255, 213, 0.12);
+}
+
+.brand-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.shard-title {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-anurati), var(--font-heading), sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(0, 255, 213, 0.14);
+}
+
+.shard-title::before,
+.shard-title::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.shard-title::before {
+  clip-path: polygon(0 0, 100% 0, 94% 22%, 9% 34%);
+  transform: translate(0.02em, -0.025em) skewX(-5deg);
+  opacity: 0.32;
+  color: rgba(0, 255, 213, 0.42);
+}
+
+.shard-title::after {
+  clip-path: polygon(7% 62%, 100% 50%, 100% 100%, 0 100%);
+  transform: translate(-0.02em, 0.03em) skewX(4deg);
+  opacity: 0.18;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.shard-wordmark {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  font-family: var(--font-anurati), var(--font-heading), sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 0.98;
+  text-shadow: 0 0 24px rgba(0, 255, 213, 0.14);
+}
+
+.shard-wordmark > span {
+  grid-area: 1 / 1;
+}
+
+.shard-wordmark .shard-top {
+  clip-path: polygon(0 0, 100% 0, 92% 36%, 5% 28%);
+  transform: translate(0.025em, -0.03em) skewX(-5deg);
+  color: rgba(0, 255, 213, 0.58);
+}
+
+.shard-wordmark .shard-mid {
+  clip-path: polygon(3% 25%, 96% 37%, 100% 64%, 0 75%);
   color: #fff;
 }
 
-/* ── Glass Morphism ── */
-.glass {
-  background: rgba(12, 13, 20, 0.6);
+.shard-wordmark .shard-bottom {
+  clip-path: polygon(8% 66%, 100% 58%, 100% 100%, 0 100%);
+  transform: translate(-0.025em, 0.03em) skewX(5deg);
+  color: rgba(255, 255, 255, 0.26);
+}
+
+/* ── Layout Components ── */
+.glass-container {
+  background: rgba(8, 9, 11, 0.7);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-subtle);
 }
 
-.glass-strong {
-  background: rgba(12, 13, 20, 0.88);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--border);
+.vault-card {
+  background: linear-gradient(165deg, #0c0d12 0%, #08090b 100%);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-card {
-  background: linear-gradient(135deg, rgba(12, 13, 20, 0.7) 0%, rgba(8, 9, 14, 0.9) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+.vault-card:hover {
+  border-color: var(--border-active);
+  box-shadow: 0 0 40px var(--glow-primary);
+  transform: translateY(-2px);
 }
 
-.glass-card:hover {
-  border-color: rgba(20, 184, 166, 0.15);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(20, 184, 166, 0.04);
+.panel-shell {
+  background: linear-gradient(180deg, rgba(12, 13, 18, 0.88) 0%, rgba(6, 8, 11, 0.74) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
 }
 
-/* ── Glow Effects ── */
-.glow-teal {
-  box-shadow: 0 0 30px rgba(20, 184, 166, 0.15), 0 0 60px rgba(20, 184, 166, 0.05);
-}
-
-.glow-neon {
-  box-shadow: 0 0 30px rgba(0, 255, 213, 0.12), 0 0 60px rgba(0, 255, 213, 0.04);
-}
-
-.text-glow {
-  text-shadow: 0 0 40px rgba(20, 184, 166, 0.4), 0 0 80px rgba(20, 184, 166, 0.15);
-}
-
-/* ── Gradient Border ── */
-.gradient-border {
-  position: relative;
-}
-
-.gradient-border::before {
-  content: "";
-  position: absolute;
+/* ── Texture ── */
+.noise-overlay {
+  position: fixed;
   inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, var(--teal), var(--neon-dim), var(--teal-dim));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.3;
-  transition: opacity 0.4s ease;
-}
-
-.gradient-border:hover::before {
-  opacity: 0.7;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* ── Animations ── */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+@keyframes neon-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
 }
 
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+@keyframes dash-flow {
+  0% { stroke-dashoffset: 90; opacity: 0.18; }
+  50% { opacity: 0.9; }
+  100% { stroke-dashoffset: -90; opacity: 0.18; }
 }
 
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes node-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.18); }
 }
-
-@keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.05); opacity: 1; }
-}
-
-@keyframes slide-in-right {
-  from { opacity: 0; transform: translateX(60px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.animate-float { animation: float 6s ease-in-out infinite; }
-.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
-.animate-shimmer { background-size: 200% 100%; animation: shimmer 3s linear infinite; }
-.animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
-.animate-breathe { animation: breathe 4s ease-in-out infinite; }
 
 @keyframes orbit-spin {
-  from { transform: rotateY(0deg); }
-  to   { transform: rotateY(360deg); }
+  from { stroke-dashoffset: 0; transform: rotate(0deg); }
+  to { stroke-dashoffset: -180; transform: rotate(360deg); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-float,
-  .animate-pulse-glow,
-  .animate-shimmer,
-  .animate-breathe { animation: none; }
+@keyframes shard-rise {
+  0%, 100% { opacity: 0.18; transform: translateY(8px); }
+  50% { opacity: 0.75; transform: translateY(-8px); }
 }
 
-/* ── Noise Texture ── */
-.noise::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  opacity: 0.012;
-  pointer-events: none;
-  z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+@keyframes glitch-shard-1 {
+  0% { clip-path: polygon(0 0, 100% 0, 100% 10%, 0 10%); transform: translate(-2px, -2px); }
+  2% { clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%); transform: translate(2px, 1px); }
+  4% { clip-path: polygon(0 40%, 100% 40%, 100% 50%, 0 50%); transform: translate(-1px, -1px); }
+  6% { clip-path: polygon(0 0, 0 0, 0 0, 0 0); transform: translate(0, 0); }
+  100% { clip-path: polygon(0 0, 0 0, 0 0, 0 0); transform: translate(0, 0); }
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg-primary); }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
+@keyframes glitch-shard-2 {
+  0% { clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%); transform: translate(2px, 2px); }
+  3% { clip-path: polygon(0 80%, 100% 80%, 100% 90%, 0 90%); transform: translate(-2px, -1px); }
+  5% { clip-path: polygon(0 20%, 100% 20%, 100% 30%, 0 30%); transform: translate(1px, 2px); }
+  7% { clip-path: polygon(0 0, 0 0, 0 0, 0 0); transform: translate(0, 0); }
+  100% { clip-path: polygon(0 0, 0 0, 0 0, 0 0); transform: translate(0, 0); }
+}
 
-/* ── Reduced Motion ── */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .animate-float, .animate-pulse-glow, .animate-shimmer, .animate-fade-in-up, .animate-breathe { animation: none; }
+.animate-neon-pulse {
+  animation: neon-pulse 3s infinite ease-in-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s infinite ease-in-out;
+}
+
+.svg-dash-flow {
+  stroke-dasharray: 18 26;
+  animation: dash-flow 5s linear infinite;
+}
+
+.svg-dash-flow-delayed {
+  animation-delay: -2.1s;
+}
+
+.svg-node-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-pulse 2.2s ease-in-out infinite;
+}
+
+.svg-orbit {
+  stroke-dasharray: 12 18;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: orbit-spin 12s linear infinite;
+}
+
+.svg-orbit-reverse {
+  animation-direction: reverse;
+  animation-duration: 8s;
+}
+
+.svg-shard-rise {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: shard-rise 3s ease-in-out infinite;
+}
+
+.svg-map-label {
+  fill: rgba(148, 163, 184, 0.72);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.svg-map-label-bright {
+  fill: rgba(0, 255, 213, 0.8);
+}
+
+.glitch-shard-1 {
+  display: none;
+}
+
+.glitch-shard-2 {
+  display: none;
+}
+
+/* ── Responsive & Performance ── */
+@media (max-width: 768px) {
+  .glass-container {
+    backdrop-filter: blur(12px);
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background: var(--neon);
+  color: #000;
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,32 +20,38 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["400", "500", "600", "700"],
 });
 
+const anurati = localFont({
+  src: "./fonts/Anurati-Regular.otf",
+  variable: "--font-anurati",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Vaulkyrie — Threshold Wallet for Solana",
+  title: "Vaulkyrie - Shared when needed. Private when it matters.",
   description:
-    "The self-custodial Solana wallet with threshold signing, private policy enforcement, and quantum-safe admin authority. No single point of failure.",
+    "Threshold security for everyday use, with a post-quantum control path for recovery and high-risk wallet authority.",
   keywords: [
     "Solana",
     "wallet",
-    "threshold",
-    "MPC",
-    "FROST",
-    "quantum-safe",
-    "self-custodial",
+    "shared wallet",
+    "private wallet",
+    "browser wallet",
+    "vault wallet",
+    "self custody",
   ],
   metadataBase: new URL("https://vaulkyrie-landing.vercel.app"),
   openGraph: {
-    title: "Vaulkyrie — Threshold Wallet for Solana",
+    title: "Vaulkyrie - Shared when needed. Private when it matters.",
     description:
-      "Self-custodial Solana wallet with threshold signing and quantum-safe admin authority.",
+      "Threshold security for everyday use, with a post-quantum control path for recovery and high-risk wallet authority.",
     type: "website",
     siteName: "Vaulkyrie",
-    images: [{ url: "/assets/qvault.jpeg", width: 1200, height: 630, alt: "Vaulkyrie — The safest Solana wallet" }],
+    images: [{ url: "/assets/qvault.jpeg", width: 1200, height: 630, alt: "Vaulkyrie wallet architecture" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vaulkyrie — Threshold Wallet for Solana",
-    description: "Self-custodial Solana wallet with threshold signing and quantum-safe admin authority.",
+    title: "Vaulkyrie - Shared when needed. Private when it matters.",
+    description: "Threshold security for everyday use, with a post-quantum control path for recovery and high-risk wallet authority.",
     images: ["/assets/qvault.jpeg"],
   },
   icons: {
@@ -64,9 +72,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} ${anurati.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col noise">{children}</body>
+      <body className="min-h-full flex flex-col noise">
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }
