@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Geist, Geist_Mono, Space_Grotesk } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
+import { VAULKYRIE_LINKS } from "@/lib/links";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,9 +28,9 @@ const anurati = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Vaulkyrie - Shared when needed. Private when it matters.",
+  title: "Vaulkyrie - Solana wallet suite",
   description:
-    "Threshold security for everyday use, with a post-quantum control path for recovery and high-risk wallet authority.",
+    "A Solana wallet suite for threshold control, post-quantum recovery paths, private transfer workflows, and developer tooling.",
   keywords: [
     "Solana",
     "wallet",
@@ -39,19 +40,19 @@ export const metadata: Metadata = {
     "vault wallet",
     "self custody",
   ],
-  metadataBase: new URL("https://vaulkyrie-landing.vercel.app"),
+  metadataBase: new URL(VAULKYRIE_LINKS.website),
   openGraph: {
-    title: "Vaulkyrie - Shared when needed. Private when it matters.",
+    title: "Vaulkyrie - Solana wallet suite",
     description:
-      "Threshold security for everyday use, with a post-quantum control path for recovery and high-risk wallet authority.",
+      "A Solana wallet suite for threshold control, post-quantum recovery paths, private transfer workflows, and developer tooling.",
     type: "website",
     siteName: "Vaulkyrie",
     images: [{ url: "/assets/qvault.jpeg", width: 1200, height: 630, alt: "Vaulkyrie wallet architecture" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vaulkyrie - Shared when needed. Private when it matters.",
-    description: "Threshold security for everyday use, with a post-quantum control path for recovery and high-risk wallet authority.",
+    title: "Vaulkyrie - Solana wallet suite",
+    description: "A Solana wallet suite for threshold control, post-quantum recovery paths, private transfer workflows, and developer tooling.",
     images: ["/assets/qvault.jpeg"],
   },
   icons: {

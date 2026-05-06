@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Ban, Clock, EyeOff, KeyRound, Lock, ShieldCheck, Zap } from "lucide-react";
+import { VAULKYRIE_LINKS } from "@/lib/links";
 import { SecurityArchitectureDiagram } from "./MinimalDiagrams";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -157,7 +158,7 @@ export default function Security() {
             <p className="mt-2 max-w-2xl text-text-secondary">Open the docs for the wallet, the programs, and the build path behind Vaulkyrie.</p>
           </div>
           <a
-            href="https://github.com/Naveen-6087/vaulkyrie"
+            href={VAULKYRIE_LINKS.docs}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-5 inline-flex min-h-10 items-center justify-center gap-2 rounded-full bg-neon px-5 py-3 text-sm font-black uppercase text-black transition-colors hover:bg-white md:mt-0"

@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ArrowUpRight, Github } from "lucide-react";
+import { VAULKYRIE_LINKS } from "@/lib/links";
 
-// Custom X icon (formerly Twitter)
 const XIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
     <path d="M18.244 2.25h3.308l-7.227 7.719L22.89 21.75h-6.656l-5.213-6.814-5.965 6.814H1.707l7.746-8.276L0.91 2.25h6.822l4.711 6.162 5.801-6.162h2.21z" />
@@ -93,7 +93,7 @@ export default function Navbar() {
 
             <div className="flex items-center gap-3">
               <a
-                href="https://x.com/vaulkyrie_hq"
+                href={VAULKYRIE_LINKS.x}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-secondary transition-colors hover:border-neon/30 hover:text-neon"
@@ -101,7 +101,7 @@ export default function Navbar() {
                 <XIcon className="w-4 h-4" />
               </a>
               <a
-                href="https://github.com/Naveen-6087/vaulkyrie"
+                href={VAULKYRIE_LINKS.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-secondary transition-colors hover:border-neon/30 hover:text-neon"
@@ -109,7 +109,7 @@ export default function Navbar() {
                 <Github className="w-4 h-4" />
               </a>
               <a
-                href="https://github.com/Naveen-6087/vaulkyrie"
+                href={VAULKYRIE_LINKS.docs}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-full bg-neon px-5 py-2.5 text-[0.68rem] font-black uppercase tracking-[0.18em] text-background transition-all hover:bg-white hover:shadow-[0_0_20px_rgba(0,255,213,0.4)]"
@@ -145,11 +145,11 @@ export default function Navbar() {
               </a>
             ))}
             <div className="flex items-center gap-6 pt-4">
-              <a href="https://x.com/vaulkyrie_hq" className="text-text-secondary hover:text-neon"><XIcon className="w-6 h-6" /></a>
-              <a href="https://github.com/Naveen-6087/vaulkyrie" className="text-text-secondary hover:text-neon"><Github className="w-6 h-6" /></a>
+              <a href={VAULKYRIE_LINKS.x} className="text-text-secondary hover:text-neon"><XIcon className="w-6 h-6" /></a>
+              <a href={VAULKYRIE_LINKS.github} className="text-text-secondary hover:text-neon"><Github className="w-6 h-6" /></a>
             </div>
             <a
-              href="https://github.com/Naveen-6087/vaulkyrie"
+              href={VAULKYRIE_LINKS.docs}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMobileOpen(false)}

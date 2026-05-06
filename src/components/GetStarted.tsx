@@ -3,7 +3,8 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Github, Globe, Monitor, Smartphone, Terminal } from "lucide-react";
+import { ArrowRight, Github, KeyRound, Monitor, Shield, Sparkles, Terminal } from "lucide-react";
+import { VAULKYRIE_LINKS } from "@/lib/links";
 import { SecurePortalDiagram } from "./MinimalDiagrams";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,30 +13,37 @@ const platforms = [
   {
     icon: Monitor,
     title: "Browser Extension",
-    description: "Keep Vaulkyrie close to the apps you already use.",
+    description: "Use Vaulkyrie from the browser wallet surface while the production extension moves toward review.",
     status: "Coming Soon",
     accent: "#00ffd5",
   },
   {
-    icon: Smartphone,
-    title: "Mobile App",
-    description: "Approve with the device that already lives in your hand.",
-    status: "Coming Soon",
+    icon: KeyRound,
+    title: "Threshold Vault",
+    description: "Split wallet control across devices and approve with threshold coordination instead of one hot key.",
+    status: "Dev Preview",
     accent: "#14b8a6",
   },
   {
-    icon: Terminal,
-    title: "CLI Tool",
-    description: "For the builders and operators who want a direct path.",
-    status: "Coming Soon",
+    icon: Sparkles,
+    title: "PQC Wallet",
+    description: "Test Winternitz-style one-time authority flows for post-quantum recovery and admin paths.",
+    status: "Research",
     accent: "#dffef3",
   },
   {
-    icon: Globe,
-    title: "Web Dashboard",
-    description: "Watch the wallet, the stronghold, and the moving parts in one place.",
-    status: "Coming Soon",
+    icon: Shield,
+    title: "Privacy Vault",
+    description: "Route private-transfer workflows through the wallet suite while keeping the user experience familiar.",
+    status: "Experimental",
     accent: "#00ffd5",
+  },
+  {
+    icon: Terminal,
+    title: "SDK and CLI",
+    description: "Integrate Vaulkyrie into developer workflows as the npm package and crates move toward release.",
+    status: "Preparing",
+    accent: "#14b8a6",
   },
 ] as const;
 
@@ -146,16 +154,17 @@ export default function GetStarted() {
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <div ref={headingRef} className="mb-16 text-center">
-          <span className="technical-label mb-4 inline-block text-neon">Use it anywhere</span>
+          <span className="technical-label mb-4 inline-block text-neon">Wallet suite</span>
           <h2 className="brand-display text-4xl font-bold sm:text-5xl lg:text-6xl">
-            Pick your surface.
+            Choose the mode that matches the risk.
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-text-secondary">
-            Browser, mobile, CLI, or dashboard. Same wallet. Same hold.
+          <p className="mx-auto mt-4 max-w-2xl text-text-secondary">
+            Vaulkyrie is being built as a Solana wallet suite: shared-control vaults, post-quantum recovery paths,
+            privacy-oriented transfer flows, and developer tools that can plug into existing products.
           </p>
         </div>
 
-        <div ref={cardsRef} className="mb-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div ref={cardsRef} className="mb-20 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {platforms.map((platform, index) => (
             <article
               key={platform.title}
@@ -190,13 +199,14 @@ export default function GetStarted() {
           <div>
             <span className="technical-label text-neon">Built in the open</span>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-text-secondary">
-              The wallet, the docs, and the on-chain work are all moving in public. Follow the build and the releases as Vaulkyrie takes shape.
+              The wallet, docs, extension packaging, SDK, and CLI are moving toward public developer previews.
+              Start with the documentation, then follow the organization for releases and package announcements.
             </p>
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row lg:mt-0">
             <a
-              href="https://github.com/Naveen-6087/vaulkyrie"
+              href={VAULKYRIE_LINKS.github}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-3 rounded-full bg-neon px-8 py-4 text-sm font-black uppercase tracking-[0.16em] text-black transition-all hover:bg-white"
@@ -205,7 +215,7 @@ export default function GetStarted() {
               View GitHub
             </a>
             <a
-              href="https://github.com/Naveen-6087/vaulkyrie"
+              href={VAULKYRIE_LINKS.docs}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-3 rounded-full border border-white/[0.1] bg-white/[0.03] px-8 py-4 text-sm font-black uppercase tracking-[0.16em] text-white transition-all hover:border-neon/30 hover:text-neon"

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Github, Send, ArrowUpRight } from "lucide-react";
+import { VAULKYRIE_LINKS } from "@/lib/links";
 
 const XIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
@@ -23,19 +24,19 @@ const footerLinks = [
   {
     title: "Build",
     links: [
-      { label: "GitHub", href: "https://github.com/Naveen-6087/vaulkyrie" },
-      { label: "Docs", href: "https://github.com/Naveen-6087/vaulkyrie" },
-      { label: "Roadmap", href: "https://github.com/Naveen-6087/vaulkyrie" },
-      { label: "Devnet", href: "https://github.com/Naveen-6087/vaulkyrie" },
+      { label: "GitHub", href: VAULKYRIE_LINKS.github },
+      { label: "Docs", href: VAULKYRIE_LINKS.docs },
+      { label: "Website", href: VAULKYRIE_LINKS.website },
+      { label: "Roadmap", href: VAULKYRIE_LINKS.github },
     ],
   },
   {
       title: "Community",
       links: [
-        { label: "X / Twitter", href: "https://x.com/vaulkyrie_hq" },
-        { label: "GitHub", href: "https://github.com/Naveen-6087/vaulkyrie" },
-        { label: "Telegram", href: "#" },
-        { label: "Documentation", href: "#" },
+        { label: "X", href: VAULKYRIE_LINKS.x },
+        { label: "GitHub", href: VAULKYRIE_LINKS.github },
+        { label: "Documentation", href: VAULKYRIE_LINKS.docs },
+        { label: "Website", href: VAULKYRIE_LINKS.website },
     ],
   },
 ];
@@ -62,13 +63,13 @@ export default function Footer() {
               A Solana wallet for shared control, quiet movement, and a stronghold vault when the stakes are higher.
             </p>
             <div className="flex items-center gap-4">
-              <a href="https://x.com/vaulkyrie_hq" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-secondary transition-all hover:border-neon/30 hover:bg-neon/5 hover:text-white">
+              <a href={VAULKYRIE_LINKS.x} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-secondary transition-all hover:border-neon/30 hover:bg-neon/5 hover:text-white">
                 <XIcon className="w-4 h-4" />
               </a>
-              <a href="https://github.com/Naveen-6087/vaulkyrie" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-secondary transition-all hover:border-neon/30 hover:bg-neon/5 hover:text-white">
+              <a href={VAULKYRIE_LINKS.github} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-secondary transition-all hover:border-neon/30 hover:bg-neon/5 hover:text-white">
                 <Github className="w-4 h-4" />
               </a>
-              <a href="#" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-secondary transition-all hover:border-neon/30 hover:bg-neon/5 hover:text-white">
+              <a href={VAULKYRIE_LINKS.docs} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-text-secondary transition-all hover:border-neon/30 hover:bg-neon/5 hover:text-white">
                 <Send className="w-4 h-4" />
               </a>
             </div>

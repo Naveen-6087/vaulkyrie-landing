@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Plus, Send, Shield, Sparkles } from "lucide-react";
 import dynamic from "next/dynamic";
+import { VAULKYRIE_LINKS } from "@/lib/links";
 
 const PhotonRays = dynamic(() => import("./PhotonRays"), { ssr: false });
 
@@ -136,7 +137,7 @@ export default function HowItWorks() {
             </p>
           </div>
           <a
-            href="https://github.com/Naveen-6087/vaulkyrie"
+            href={VAULKYRIE_LINKS.docs}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-3 rounded-full bg-neon px-8 py-4 text-xs font-black uppercase tracking-[0.16em] text-black transition-all hover:bg-white lg:mt-0"
