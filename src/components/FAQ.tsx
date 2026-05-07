@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     question: "What is the Stronghold vault for?",
-    answer: "It is the deeper hold for funds that should stay put, with WOTS+ admin authority reserved for recovery, rekey, and other high-risk control flows.",
+    answer: "It is the deeper hold for funds that should stay put, a quantum-safe vault with WOTS+ admin authority reserved for recovery, rekey, and other high-risk control flows.",
   },
 ] as const;
 
